@@ -4,15 +4,7 @@
 #include "hashmapy_wzor.h"
 #include "hash_func.h"
 #include "lista.h"
-#include <iostream>
 
-int czy_wieksze(std::string *a,std::string *b)
-{
-	int wynik=a->compare(*b);
-	if(wynik>0) return 1;
-	if(wynik<0) return -1;
-	return 0;
-}
 
 template <typename T> class hash_chain : hash_map<T>
 {
