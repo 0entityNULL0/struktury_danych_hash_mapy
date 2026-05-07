@@ -12,14 +12,15 @@ template <typename T> struct para
 
 template <typename T> class hash_map
 {
-	virtual T remove(std::string klucz);
-	virtual void insert(std::string klucz, T dane);
-	virtual std::vector<para<T>> all_data();
-	virtual std::vector<std::string> all_keys();
-	virtual int size();
+	virtual T remove(std::string klucz) = 0;
+	virtual int exists(std::string klucz) = 0;
+	virtual void insert(std::string klucz, T dane) = 0;
+	virtual std::vector<para<T>> *all_data() = 0;
+	virtual std::vector<std::string> *all_keys() = 0;
+	virtual uint64_t size() = 0;
 	
-    virtual T & operator [](std::string klucz);
-	virtual T operator [] (std::string klucz) const;
+    virtual T & operator [](std::string klucz) = 0;
+	virtual T operator [] (std::string klucz) const = 0;
 };
 
 
