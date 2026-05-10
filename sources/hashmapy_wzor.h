@@ -1,6 +1,7 @@
 
 #ifndef HASH_WZOR_H
 #define HASH_WZOR_H
+#include <cstdint>
 
 #include <vector>
 

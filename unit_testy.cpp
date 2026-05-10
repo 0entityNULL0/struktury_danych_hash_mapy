@@ -1,6 +1,7 @@
 #include <iostream>
 #include "sources/hashmapy_wzor.h"
 #include "sources/hash_chain.h"
+#include "sources/hash_line.h"
 
 
 
@@ -71,7 +72,14 @@ template <template  <typename> typename TMAP> int testuj_hashmap()
 
 int main()
 {
-	int a = testuj_hashmap<hash_chain>();
+	int a;
+	try{
+		a = testuj_hashmap<hash_line>();
+	}
+	catch(const char *t)
+	{
+		std::cout<<t<<"\n";
+	}
 	if(a!=0)
 	{
 		std::cout<<"test nie powiodl sie, blad: "<<a<<"\n";
