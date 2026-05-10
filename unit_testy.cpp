@@ -1,7 +1,9 @@
 #include <iostream>
 #include "sources/hashmapy_wzor.h"
 #include "sources/hash_chain.h"
+#include "sources/hash_cubu.h"
 #include "sources/hash_line.h"
+
 
 
 
@@ -74,7 +76,7 @@ int main()
 {
 	int a;
 	try{
-		a = testuj_hashmap<hash_line>();
+		a = testuj_hashmap<hash_cubu>();
 	}
 	catch(const char *t)
 	{
