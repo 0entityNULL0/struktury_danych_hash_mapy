@@ -9,6 +9,8 @@ template <typename T> struct para
 {
 	std::string klucz;
 	T dane;
+	para(){}
+	para(std::string s, T d) : klucz(s) , dane(d) {}
 };
 
 template <typename T> class hash_map

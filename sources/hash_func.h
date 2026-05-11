@@ -35,14 +35,14 @@ uint64_t string_for_hash_cubu(std::string s)
 }
 uint64_t hash(uint64_t hashowany_int, uint64_t przesuniecie,uint64_t modulo,uint64_t mnoz)
 {
-	uint64_t wynik = przesuniecie +(((hashowany_int)%modulo)*mnoz);
+	uint64_t wynik = (((przesuniecie +hashowany_int)*mnoz)%modulo);
 	return wynik;
 }
 
 uint64_t super_hash(uint64_t hashowany_int, uint64_t przesuniecie,uint64_t modulo,uint64_t mnoz,uint64_t przesuniecie2,uint64_t modulo2,uint64_t mnoz2)
 {
-	uint64_t wynik = przesuniecie +(((hashowany_int)%modulo)*mnoz);
-	wynik = przesuniecie2 +(((wynik)%modulo2)*mnoz2);
+	uint64_t wynik = (((przesuniecie +hashowany_int)*mnoz)%modulo);
+	wynik = (((przesuniecie2 +wynik)*mnoz2)%modulo2);
 	return wynik;
 	
 }

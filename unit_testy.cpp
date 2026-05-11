@@ -16,7 +16,12 @@ template <template  <typename> typename TMAP> int testuj_hashmap()
 	for(int i = 0; i < 5; i++)
 	{
 		hmap.insert(testowe_klucze[i],i);
-		if(hmap.size()!=i+1) return 2+i*10;
+		if(hmap.size()!=i+1) 
+		{
+			
+			return 2+i*10;
+			
+		}
 		zawartosc=hmap.all_data();
 		if(zawartosc->size()!=i+1) return 3+i*10;
 		delete zawartosc;
@@ -32,9 +37,18 @@ template <template  <typename> typename TMAP> int testuj_hashmap()
 		for(int j = 0; j < 5; j++) 
 			if((*zawartosc)[i].klucz==testowe_klucze[j]) ile[j]++;
 	}
-	delete zawartosc;
 	
-	for(int i = 0; i < 5; i++) if(ile[i]!=1) return 5+i*10;
+	for(int i = 0; i < 5; i++) if(ile[i]!=1) 
+	{
+		std::cout<<i<<'\n';
+			for(int j = 0 ; j < zawartosc->size(); j++)
+			{
+				std::cout<<(*zawartosc)[j].klucz<<'|'<<(*zawartosc)[j].dane<<'\n';
+				
+			}
+		return 5+i*10;
+	}
+	delete zawartosc;
 	for(int i = 0; i < 5; i++)
 	{
 		if(hmap[testowe_klucze[4-i]]!=4-i) 
@@ -63,8 +77,8 @@ template <template  <typename> typename TMAP> int testuj_hashmap()
 		hmap.insert(testowe_klucze[i],i);
 	}
 	zawartosc=hmap.all_data();
-	for(int i = 0; i < zawartosc->size(); i++)
-		std::cout<<(*zawartosc)[i].klucz<<'|'<<(*zawartosc)[i].dane<<'\n';
+	//for(int i = 0; i < zawartosc->size(); i++)
+	//	std::cout<<(*zawartosc)[i].klucz<<'|'<<(*zawartosc)[i].dane<<'\n';
 	delete zawartosc;
 		
 	for(int i = 0; i < 10; i++)
@@ -74,6 +88,7 @@ template <template  <typename> typename TMAP> int testuj_hashmap()
 
 int main()
 {
+	for(int i = 0 ; i < 1000; i++){
 	int a;
 	try{
 		a = testuj_hashmap<hash_cubu>();
@@ -86,6 +101,6 @@ int main()
 	{
 		std::cout<<"test nie powiodl sie, blad: "<<a<<"\n";
 	}
-	
+}
 	return 0;
 }

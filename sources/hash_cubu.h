@@ -1,6 +1,7 @@
 
 #ifndef HASH_CUBU_H
 #define HASH_CUBU_H
+#include <iostream>
 #include "hashmapy_wzor.h"
 #include "hash_func.h"
 #include "lista.h"
@@ -23,7 +24,7 @@ private:
 	
 	void zwieksz(std::vector<para<T>> *all)
 	{
-		ile_kubelkow*=3;
+		ile_kubelkow*=2;
 		tablica[0].resize(ile_kubelkow);
 		tablica[1].resize(ile_kubelkow);
 		
@@ -39,6 +40,7 @@ private:
 	{
 		while(true)
 		{
+			para <T> *tmp;
 			przesuniecie=rand()%ile_kubelkow;
 			mnoz=(rand()%ile_kubelkow)+1;
 			przesuniecie=rand()%ile_kubelkow;
@@ -47,12 +49,16 @@ private:
 			mnoz3=(rand()%ile_kubelkow)+1;
 			mod2=(rand()%((ile_kubelkow+1)/2))+(ile_kubelkow+1)/2;
 			int i = 0;
-			while(can_insert((*all)[i]))
+			tmp=can_insert((*all)[i]);
+			while(tmp==nullptr)
 			{
 				i++;
 				if(all->size()<=i) {delete all;return;}
+					
+				tmp=can_insert((*all)[i]);
 				
 			}
+			delete tmp;
 			for(int j=0; j<ile_kubelkow;j++)
 			{
 				tablica[0][j].klucz="";
@@ -60,13 +66,13 @@ private:
 			}
 		}
 	}
-	int can_insert(para<T> rzecz)
+	para<T> *can_insert(para<T> rzecz)
 	{
 		uint64_t hashowany_klucz=hash(string_for_hash_cubu(rzecz.klucz),przesuniecie,ile_kubelkow,mnoz);
 		if(tablica[0][hashowany_klucz].klucz.length()==0)
 		{
 			tablica[0][hashowany_klucz]=rzecz;
-			return 1;
+			return nullptr;
 		}
 		uint64_t cykl=1;
 		uint64_t oryginal=hashowany_klucz;
@@ -85,12 +91,17 @@ private:
 				{
 					zmieniany=tmp;
 					cykl++;
-				}else return 1;
+				}else return nullptr;
 				
 			}else
 			{
 				uint64_t nowy_hash = hash(string_for_hash_cubu(zmieniany.klucz),przesuniecie,ile_kubelkow,mnoz);
-				if(nowy_hash==oryginal) return 0;
+				if(nowy_hash==oryginal) 
+				{  
+					para<T> *tmp2 = new para<T>(zmieniany.klucz,zmieniany.dane); 
+					
+					return tmp2;
+				}
 				
 				para<T> tmp=tablica[0][nowy_hash];
 				tablica[0][nowy_hash]=zmieniany;
@@ -98,10 +109,11 @@ private:
 				{
 					zmieniany=tmp;
 					cykl++;
-				}else return 1;
+				}else return nullptr;
 			}
 		}
-		return 0;
+		para<T> *tmp2 = new para<T>(zmieniany.klucz,zmieniany.dane); 
+		return tmp2;
 			
 	}
 public:
@@ -196,20 +208,32 @@ public:
 	
 	void insert(std::string klucz, T dane) override
 	{
+		
+		przechowywane_dane++;
 		para <T> wkladany;
 		wkladany.klucz=klucz;
 		wkladany.dane=dane;
-		przechowywane_dane++;
-		if(przechowywane_dane*3<=ile_kubelkow) 
+		para <T> *tmp = nullptr;
+		if(przechowywane_dane*2<=ile_kubelkow) 
 		{
-			if(can_insert(wkladany)) return;
+			tmp = can_insert(wkladany);
+			if(tmp==nullptr) {
+				return;
+				}
 		}
+		
 		std::vector<para<T>> *wsio = all_data();
-		wsio->push_back(wkladany);
-		if(przechowywane_dane*3>ile_kubelkow) zwieksz(wsio);
+		if(tmp==nullptr)
+		{
+			para <T> tmp2(klucz,dane);
+			wsio->push_back(tmp2);
+		}else{
+			wsio->push_back(*tmp);
+			delete tmp;
+		}
+		if(przechowywane_dane*2>ile_kubelkow) zwieksz(wsio);
 		else 
 		{
-			
 			for(int j=0; j<tablica[0].size();j++)
 			{
 				tablica[0][j].klucz="";
